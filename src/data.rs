@@ -33,6 +33,14 @@ impl Todos {
 
         graphql_translate(res)
     }
+
+    pub fn mark_todo_as_done(conn: &PgConnection, todo_id: i32) -> FieldResult<Todo> {
+        let res = diesel::update(todos.find(todo_id))
+            .set(done.eq(true))
+            .get_result::<Todo>(conn);
+        
+        graphql_translate(res)
+    }
 }
 
 fn graphql_translate<T>(res: Result<T, diesel::result::Error>) -> FieldResult<T> {
