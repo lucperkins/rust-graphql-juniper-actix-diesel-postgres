@@ -4,15 +4,15 @@ extern crate diesel;
 extern crate dotenv;
 extern crate env_logger;
 extern crate juniper;
-extern crate litany;
+extern crate todos;
 extern crate r2d2;
 
 use std::{env, io};
 
 use actix_web::{middleware, App, HttpServer};
 
-use litany::db::get_pool;
-use litany::endpoints::graphql_endpoints;
+use todos::db::get_pool;
+use todos::endpoints::graphql_endpoints;
 
 #[actix_rt::main]
 async fn main() -> io::Result<()> {

@@ -1,5 +1,5 @@
 [package]
-name = "litany"
+name = "todos"
 version = "0.1.0"
 authors = ["lucperkins <lucperkins@gmail.com>"]
 edition = "2018"

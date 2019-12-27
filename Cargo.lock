@@ -812,20 +812,6 @@ version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "litany"
-version = "0.1.0"
-dependencies = [
- "actix-rt 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "actix-web 2.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "diesel 1.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "dotenv 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "env_logger 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "juniper 0.14.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "r2d2 0.8.8 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.44 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "lock_api"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1278,6 +1264,20 @@ dependencies = [
  "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
  "redox_syscall 0.1.56 (registry+https://github.com/rust-lang/crates.io-index)",
  "winapi 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "todos"
+version = "0.1.0"
+dependencies = [
+ "actix-rt 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "actix-web 2.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "diesel 1.4.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dotenv 0.15.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "env_logger 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "juniper 0.14.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "r2d2 0.8.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.44 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
