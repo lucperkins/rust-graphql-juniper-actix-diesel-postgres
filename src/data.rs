@@ -13,7 +13,10 @@ impl Todos {
         graphql_translate(res)
     }
 
-    pub fn create_todo(conn: &PgConnection, new_todo: CreateTodoInput) -> FieldResult<Todo> {
+    pub fn create_todo(
+        conn: &PgConnection,
+        new_todo: CreateTodoInput,
+    ) -> FieldResult<Todo> {
         use super::schema::todos;
 
         let new_todo = NewTodo {
@@ -24,7 +27,7 @@ impl Todos {
         let res = diesel::insert_into(todos::table)
             .values(&new_todo)
             .get_result(conn);
-        
+
         graphql_translate(res)
     }
 
@@ -38,7 +41,7 @@ impl Todos {
         let res = diesel::update(todos.find(todo_id))
             .set(done.eq(true))
             .get_result::<Todo>(conn);
-        
+
         graphql_translate(res)
     }
 }

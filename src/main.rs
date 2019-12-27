@@ -4,8 +4,8 @@ extern crate diesel;
 extern crate dotenv;
 extern crate env_logger;
 extern crate juniper;
-extern crate todos;
 extern crate r2d2;
+extern crate todos;
 
 use std::{env, io};
 

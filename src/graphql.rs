@@ -18,7 +18,7 @@ impl Query {
 
     #[graphql(name = "getTodoById")]
     pub fn get_todo_by_id(context: &GraphQLContext, id: i32) -> FieldResult<Todo> {
-        let conn: &PgConnection = &context.pool.get().unwrap(); 
+        let conn: &PgConnection = &context.pool.get().unwrap();
 
         Todos::get_todo_by_id(conn, id)
     }
@@ -29,7 +29,10 @@ pub struct Mutation;
 #[juniper::object(Context = GraphQLContext)]
 impl Mutation {
     #[graphql(name = "createTodo")]
-    pub fn create_todo(context: &GraphQLContext, input: CreateTodoInput) -> FieldResult<Todo> {
+    pub fn create_todo(
+        context: &GraphQLContext,
+        input: CreateTodoInput,
+    ) -> FieldResult<Todo> {
         let conn: &PgConnection = &context.pool.get().unwrap();
 
         Todos::create_todo(conn, input)

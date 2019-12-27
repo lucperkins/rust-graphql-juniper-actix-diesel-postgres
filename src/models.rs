@@ -1,5 +1,5 @@
-use juniper::{GraphQLInputObject, GraphQLObject};
 use super::schema::todos;
+use juniper::{GraphQLInputObject, GraphQLObject};
 
 #[derive(Queryable, GraphQLObject)]
 pub struct Todo {
