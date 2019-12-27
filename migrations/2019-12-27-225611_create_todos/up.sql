@@ -1,0 +1,5 @@
+CREATE TABLE todos (
+  id SERIAL PRIMARY KEY,
+  task VARCHAR NOT NULL,
+  done BOOL DEFAULT 'f'
+)
