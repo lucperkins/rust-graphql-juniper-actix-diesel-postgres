@@ -11,7 +11,7 @@ input CreateTodoInput {
 
 type Query {
   allTodos: [Todo!]!
-  getTodoById(id: Int): 
+  getTodoById(id: Int): Todo
 }
 
 type Mutation {
