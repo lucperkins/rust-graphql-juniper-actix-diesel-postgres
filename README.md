@@ -1,6 +1,6 @@
 # Rust + GraphQL + Juniper + Diesel + Postgres + Actix
 
-Yes, I know that this is a borderline absurd web stack for the ubiquitous TODO application but I had a *lot* of trouble getting this all to work and I'd love to spare you the trouble. So here's some boilerplate to get you up and running.
+Yes, I know that this is a borderline absurd web stack for the ubiquitous TODO application but I had a *lot* of trouble getting this all to work. I started using these things for a more ambitious project and I'd love to spare you the trouble. So here's some basic boilerplate to get you up and running.
 
 ## Components
 
@@ -21,7 +21,41 @@ GraphQL UI | [GraphQL Playground](https://github.com/prisma-labs/graphql-playgro
 ```bash
 git clone https://github.com/lucperkins/rust-actix-diesel-postgres-juniper
 cd rust-actix-diesel-postgres-juniper
-cargo run
+cargo run # could take a while!
+```
+
+Then you can access the GraphQL Playground UI at http://localhost:4000/graphql.
+
+## Schema
+
+The server implements the following schema:
+
+```graphql
+type Todo {
+  id: ID!
+  task: String!
+  done: Boolean
+}
+
+input CreateTodoInput {
+  task: String!
+  done: Boolean
+}
+
+type Query {
+  allTodos: [Todo!]!
+  getTodoById(id: Int): Todo
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput): Todo
+  markTodoAsDone(id: Int): Todo
+}
+
+schema {
+  Query
+  Mutation
+}
 ```
 
 ## Future TODOs

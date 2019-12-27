@@ -26,7 +26,7 @@ async fn main() -> io::Result<()> {
             .wrap(middleware::Logger::default())
             .configure(graphql_endpoints)
     })
-    .bind("127.0.0.1:8080")?
+    .bind("127.0.0.1:4000")?
     .run()
     .await
 }
