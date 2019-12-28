@@ -31,13 +31,16 @@ impl Todos {
         graphql_translate(res)
     }
 
-    pub fn get_todo_by_id(conn: &PgConnection, todo_id: i32) -> FieldResult<Option<Todo>> {
+    pub fn get_todo_by_id(
+        conn: &PgConnection,
+        todo_id: i32,
+    ) -> FieldResult<Option<Todo>> {
         match todos.find(todo_id).get_result::<Todo>(conn) {
             Ok(todo) => Ok(Some(todo)),
             Err(e) => match e {
                 diesel::result::Error::NotFound => FieldResult::Ok(None),
-                _                               => FieldResult::Err(FieldError::from(e))
-            }
+                _ => FieldResult::Err(FieldError::from(e)),
+            },
         }
     }
 
@@ -45,7 +48,10 @@ impl Todos {
         mark_todo_as(conn, todo_id, true)
     }
 
-    pub fn mark_todo_as_not_done(conn: &PgConnection, todo_id: i32) -> FieldResult<Todo> {
+    pub fn mark_todo_as_not_done(
+        conn: &PgConnection,
+        todo_id: i32,
+    ) -> FieldResult<Todo> {
         mark_todo_as(conn, todo_id, false)
     }
 }
@@ -59,7 +65,7 @@ fn graphql_translate<T>(res: Result<T, diesel::result::Error>) -> FieldResult<T>
 
 fn mark_todo_as(conn: &PgConnection, todo_id: i32, is_done: bool) -> FieldResult<Todo> {
     let res = todos.find(todo_id).get_result::<Todo>(conn);
-    
+
     let msg = if is_done { "done" } else { "not done" };
 
     match res {
@@ -67,7 +73,7 @@ fn mark_todo_as(conn: &PgConnection, todo_id: i32, is_done: bool) -> FieldResult
             if todo.done == is_done {
                 let err = FieldError::new(
                     format!("TODO already marked as {}", msg),
-                    graphql_value!({ "foo": "bar "})
+                    graphql_value!({ "cannot_update": "confict"}),
                 );
                 FieldResult::Err(err)
             } else {
