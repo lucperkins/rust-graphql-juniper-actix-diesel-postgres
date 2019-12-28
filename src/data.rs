@@ -2,7 +2,7 @@ use super::models::{CreateTodoInput, NewTodo, Todo};
 use super::schema::todos::dsl::*;
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
-use juniper::{FieldError, FieldResult};
+use juniper::{graphql_value, FieldError, FieldResult};
 
 pub struct Todos;
 
@@ -38,11 +38,47 @@ impl Todos {
     }
 
     pub fn mark_todo_as_done(conn: &PgConnection, todo_id: i32) -> FieldResult<Todo> {
-        let res = diesel::update(todos.find(todo_id))
-            .set(done.eq(true))
-            .get_result::<Todo>(conn);
+        let res = todos.find(todo_id).get_result::<Todo>(conn);
 
-        graphql_translate(res)
+        match res {
+            Ok(todo) => {
+                if todo.done {
+                    let err = FieldError::new(
+                        "TODO already marked as done",
+                        graphql_value!({ "foo": "bar "})
+                    );
+                    FieldResult::Err(err)
+                } else {
+                    let res = diesel::update(todos.find(todo_id))
+                        .set(done.eq(true))
+                        .get_result::<Todo>(conn);
+                    graphql_translate(res)
+                }
+            }
+            Err(e) => FieldResult::Err(FieldError::from(e)),
+        }
+    }
+
+    pub fn mark_todo_as_not_done(conn: &PgConnection, todo_id: i32) -> FieldResult<Todo> {
+        let res = todos.find(todo_id).get_result::<Todo>(conn);
+
+        match res {
+            Ok(todo) => {
+                if !todo.done {
+                    let err = FieldError::new(
+                        "TODO already marked as not done",
+                        graphql_value!({ "foo": "bar "})
+                    );
+                    FieldResult::Err(err)
+                } else {
+                    let res = diesel::update(todos.find(todo_id))
+                        .set(done.eq(false))
+                        .get_result::<Todo>(conn);
+                    graphql_translate(res)
+                }
+            }
+            Err(e) => FieldResult::Err(FieldError::from(e)),
+        }
     }
 }
 

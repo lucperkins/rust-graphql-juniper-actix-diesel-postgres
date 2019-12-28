@@ -44,6 +44,16 @@ impl Mutation {
 
         Todos::mark_todo_as_done(conn, id)
     }
+
+    #[graphql(name = "markTodoAsNotDone")]
+    pub fn mark_todo_as_not_done(
+        context: &GraphQLContext,
+        id: i32,
+    ) -> FieldResult<Todo> {
+        let conn: &PgConnection = &context.pool.get().unwrap();
+
+        Todos::mark_todo_as_not_done(conn, id)
+    }
 }
 
 pub type Schema = RootNode<'static, Query, Mutation>;
