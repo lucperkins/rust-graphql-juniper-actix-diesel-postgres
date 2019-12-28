@@ -7,7 +7,7 @@ fmt:
 	$(CARGO) fmt
 
 open:
-	open http://localhost:8080/graphql
+	open http://localhost:4000/graphql
 
 release:
 	$(CARGO) build --release
