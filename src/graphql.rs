@@ -17,7 +17,10 @@ impl Query {
     }
 
     #[graphql(name = "getTodoById")]
-    pub fn get_todo_by_id(context: &GraphQLContext, id: i32) -> FieldResult<Todo> {
+    pub fn get_todo_by_id(
+        context: &GraphQLContext,
+        id: i32,
+    ) -> FieldResult<Option<Todo>> {
         let conn: &PgConnection = &context.pool.get().unwrap();
 
         Todos::get_todo_by_id(conn, id)

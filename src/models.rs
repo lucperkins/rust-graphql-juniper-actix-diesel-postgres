@@ -18,5 +18,5 @@ pub struct NewTodo<'a> {
 #[derive(GraphQLInputObject)]
 pub struct CreateTodoInput {
     pub task: String,
-    pub done: bool,
+    pub done: Option<bool>,
 }

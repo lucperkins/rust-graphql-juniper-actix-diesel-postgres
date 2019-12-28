@@ -21,7 +21,7 @@ impl Todos {
 
         let new_todo = NewTodo {
             task: &new_todo.task,
-            done: &new_todo.done,
+            done: &new_todo.done.unwrap_or(false),
         };
 
         let res = diesel::insert_into(todos::table)
@@ -31,10 +31,14 @@ impl Todos {
         graphql_translate(res)
     }
 
-    pub fn get_todo_by_id(conn: &PgConnection, todo_id: i32) -> FieldResult<Todo> {
-        let res = todos.find(todo_id).get_result::<Todo>(conn);
-
-        graphql_translate(res)
+    pub fn get_todo_by_id(conn: &PgConnection, todo_id: i32) -> FieldResult<Option<Todo>> {
+        match todos.find(todo_id).get_result::<Todo>(conn) {
+            Ok(todo) => Ok(Some(todo)),
+            Err(e) => match e {
+                diesel::result::Error::NotFound => FieldResult::Ok(None),
+                _                               => FieldResult::Err(FieldError::from(e))
+            }
+        }
     }
 
     pub fn mark_todo_as_done(conn: &PgConnection, todo_id: i32) -> FieldResult<Todo> {
