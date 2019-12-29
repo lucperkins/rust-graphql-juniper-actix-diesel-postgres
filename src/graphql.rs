@@ -1,4 +1,4 @@
-use super::context::Context as GraphQLContext;
+use super::context::GraphQLContext;
 use diesel::pg::PgConnection;
 use juniper::{FieldResult, RootNode};
 

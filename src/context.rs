@@ -1,7 +1,7 @@
 use super::db::PostgresPool;
 
-pub struct Context {
+pub struct GraphQLContext {
     pub pool: PostgresPool,
 }
 
-impl juniper::Context for Context {}
+impl juniper::Context for GraphQLContext {}

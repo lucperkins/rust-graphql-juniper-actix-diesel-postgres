@@ -1,4 +1,4 @@
-use super::context::Context as GraphQLContext;
+use super::context::GraphQLContext;
 use super::db::PostgresPool;
 use super::graphql::create_schema;
 use super::graphql::Schema;
