@@ -16,19 +16,28 @@ GraphQL UI | [GraphQL Playground](https://github.com/prisma-labs/graphql-playgro
 
 ## Run locally
 
-> Before you get started, make sure that you have Rust and Cargo installed.
+> Before you get started, make sure that you have [PostgreSQL](https://postgresql.org), [Rust](https://rust-lang.org), [Cargo](https://doc.rust-lang.org/cargo/), and the [Diesel](https://diesel.rs) CLI installed and that you have Postgres running somewhere.
 
 ```bash
+# Fetch the repo
 git clone https://github.com/lucperkins/rust-actix-diesel-postgres-juniper
 cd rust-actix-diesel-postgres-juniper
+
+# Set up the database
+echo DATABASE_URL=... > .env
+diesel setup
+diesel migration run
+
 cargo run # could take a while!
 ```
 
-Then you can access the GraphQL Playground UI at http://localhost:4000/graphql.
+> The `DATABASE_URL` can be any Postgres installation. For my purposes, I have it set to `postgres://localhost:5432/todos`.
+
+Once the server is running, you can access the GraphQL Playground UI at http://localhost:4000/graphql.
 
 ## Schema
 
-The server implements the following schema:
+The server implements the following GraphQL schema:
 
 ```graphql
 type Todo {
@@ -59,6 +68,20 @@ schema {
 }
 ```
 
+## Tour of the codebase
+
+File | What it provides
+:----|:----------------
+[`context.rs`](./src/context.rs) | The GraphQL [context](https://graphql.org/learn/execution) that handles query execution
+[`data.rs`](./src/data.rs) | A `Todos` struct and some helper functions encapsulate the [Diesel](https://diesel.rs)-powered Postgres querying logic
+[`db.rs`](./src/db.rs) | The connection pool that handles the Postgres connection
+[`endpoints.rs`](./src/endpoints.rs) | The `/graphql` HTTP endpoint that makes GraphQL and the GraphQL Playground work
+[`graphql.rs`](./src/graphql.rs) | The `Query`, `Mutation`, and `Schema` objects that undergird the GraphQL interface
+[`lib.rs`](./src/lib.rs) | Just the standard `lib.rs`
+[`main.rs`](./src/main.rs) | [Actix](https://actix.rs) HTTP server setup
+[`models.rs`](./src/models.rs) | All of the data types used for querying Postgres and providing GraphQL results
+[`schema.rs`](./src/schema.rs) | The Diesel-generated table schema
+
 ## Future TODOs
 
 Get it? Anyway, here's some areas for improvement (pull requests very much welcome):
@@ -66,3 +89,18 @@ Get it? Anyway, here's some areas for improvement (pull requests very much welco
 * **Error handling** — Right now errors basically propagate directly from Diesel/Postgres into the GraphQL JSON output, which is subpar. If any of you can point me to good educational resources on this, please file an issue!
 * **Better execution engine** — The server uses the extremely powerful [actix-web](https://github.com/actix/actix-web) but the actual DB interactions don't use Actix actors and it'd take this setup to the next level if they did.
 * **Use macros for schema generation** — The powerful [`juniper_from_schema`](https://docs.rs/juniper-from-schema/0.5.1/juniper_from_schema/) macro could help reduce boilerplate and improve development velocity.
+
+## Acknowledgments
+
+I'm basically a beginner with Rust.would not have been able to put this together without peeking long and hard at the example projects and blog posts listed below. The lower-level bits you see here are basically stolen from [BrendanBall](https://github.com/BrendanBall). All that I've added is the [`Todos`](./src/data.rs) data construct for executing queries.
+
+### Example projects
+
+* [BrendanBall/example-actix-web-juniper-diesel](https://github.com/BrendanBall/example-actix-web-juniper-diesel)
+* [iwilsonq/rust-graphql-example](https://github.com/iwilsonq/rust-graphql-example)
+* [dancespiele/listing_people_api_actix](https://github.com/dancespiele/listing_people_api_actix)
+
+### Blog posts
+
+* [Building Powerful GraphQL Servers with Rust](https://dev.to/open-graphql/building-powerful-graphql-servers-with-rust-3gla)
+* [[Rust] juniper + diesel + actix-webでGraphQLしてみる](https://qiita.com/yagince/items/e378bbaa95e08bab7467)
