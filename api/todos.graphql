@@ -15,9 +15,9 @@ type Query {
 }
 
 type Mutation {
-  createTodo(input: CreateTodoInput): Todo
-  markTodoAsDone(id: Int): Todo
-  markTodoAsNotDone(id: Int): Todo
+  createTodo(input: CreateTodoInput): Todo!
+  markTodoAsDone(id: Int): Todo!
+  markTodoAsNotDone(id: Int): Todo!
 }
 
 schema {
