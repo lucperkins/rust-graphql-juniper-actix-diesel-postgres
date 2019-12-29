@@ -43,7 +43,7 @@ The server implements the following GraphQL schema:
 type Todo {
   id: ID!
   task: String!
-  done: Boolean
+  done: Boolean!
 }
 
 input CreateTodoInput {
