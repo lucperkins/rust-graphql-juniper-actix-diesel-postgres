@@ -4,8 +4,14 @@ use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use juniper::{graphql_value, FieldError, FieldResult};
 
+// This struct is basically a query manager. All the methods that it
+// provides are static, making it a convenient abstraction for interacting
+// with the database.
 pub struct Todos;
 
+// Note that all the function names here map directly onto the function names
+// associated with the Query and Mutation structs. This is NOT necessary but
+// I personally prefer it.
 impl Todos {
     pub fn all_todos(conn: &PgConnection) -> FieldResult<Vec<Todo>> {
         let res = todos.load::<Todo>(conn);
@@ -21,7 +27,7 @@ impl Todos {
 
         let new_todo = NewTodo {
             task: &new_todo.task,
-            done: &new_todo.done.unwrap_or(false),
+            done: &new_todo.done.unwrap_or(false), // Default value is false
         };
 
         let res = diesel::insert_into(todos::table)
@@ -38,6 +44,8 @@ impl Todos {
         match todos.find(todo_id).get_result::<Todo>(conn) {
             Ok(todo) => Ok(Some(todo)),
             Err(e) => match e {
+                // Without this translation, GraphQL will return an error rather
+                // than the more semantically sound JSON null if no TODO is found.
                 diesel::result::Error::NotFound => FieldResult::Ok(None),
                 _ => FieldResult::Err(FieldError::from(e)),
             },
@@ -63,9 +71,12 @@ fn graphql_translate<T>(res: Result<T, diesel::result::Error>) -> FieldResult<T>
     }
 }
 
+// This helper function ensures that users don't mark TODOs as done that are already done
+// (or not done that are already not done).
 fn mark_todo_as(conn: &PgConnection, todo_id: i32, is_done: bool) -> FieldResult<Todo> {
     let res = todos.find(todo_id).get_result::<Todo>(conn);
 
+    // Poor man's Ternary operator for error output text
     let msg = if is_done { "done" } else { "not done" };
 
     match res {
@@ -73,6 +84,7 @@ fn mark_todo_as(conn: &PgConnection, todo_id: i32, is_done: bool) -> FieldResult
             if todo.done == is_done {
                 let err = FieldError::new(
                     format!("TODO already marked as {}", msg),
+                    // TODO: better error output
                     graphql_value!({ "cannot_update": "confict"}),
                 );
                 FieldResult::Err(err)

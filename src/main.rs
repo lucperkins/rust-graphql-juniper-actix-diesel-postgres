@@ -18,8 +18,12 @@ use todos::endpoints::graphql_endpoints;
 async fn main() -> io::Result<()> {
     logging_setup();
 
+    // Instantiate a new connection pool
     let pool = get_pool();
 
+    // Start up the server, passing in (a) the connection pool
+    // to make it available to all endpoints and (b) the configuration
+    // function that adds the /graphql logic.
     HttpServer::new(move || {
         App::new()
             .data(pool.clone())
@@ -31,6 +35,7 @@ async fn main() -> io::Result<()> {
     .await
 }
 
+// TODO: more fine-grained logging setup
 fn logging_setup() {
     env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
