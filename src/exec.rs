@@ -17,6 +17,15 @@ pub struct GraphQLExecutor {
     context: GraphQLContext,
 }
 
+impl GraphQLExecutor {
+    pub fn new(schema: Arc<Schema>, context: GraphQLContext) -> Self {
+        Self {
+            schema: schema,
+            context: context,
+        }
+    }
+}
+
 impl Actor for GraphQLExecutor {
     type Context = SyncContext<Self>;
 }
@@ -32,5 +41,13 @@ impl Handler<GraphQLData> for GraphQLExecutor {
 }
 
 pub struct State {
-    exec: Addr<GraphQLExecutor>,
+    addr: Addr<GraphQLExecutor>,
+}
+
+impl State {
+    pub fn new(addr: Addr<GraphQLExecutor>) -> Self {
+        Self {
+            addr: addr,
+        }
+    }
 }
