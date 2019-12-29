@@ -92,7 +92,7 @@ Get it? Anyway, here's some areas for improvement (pull requests very much welco
 
 ## Acknowledgments
 
-I'm basically a beginner with Rust.would not have been able to put this together without peeking long and hard at the example projects and blog posts listed below. The lower-level bits you see here are basically stolen from [BrendanBall](https://github.com/BrendanBall). All that I've added is the [`Todos`](./src/data.rs) data construct for executing queries.
+I'm basically a beginner with Rust and would not have been able to put this together without peeking long and hard at the example projects and blog posts listed below. The lower-level bits you see here are basically stolen from [BrendanBall](https://github.com/BrendanBall). All that I've added is the [`Todos`](./src/data.rs) data construct for executing queries.
 
 ### Example projects
 
