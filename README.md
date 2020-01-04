@@ -24,7 +24,8 @@ git clone https://github.com/lucperkins/rust-actix-diesel-postgres-juniper
 cd rust-actix-diesel-postgres-juniper
 
 # Set up the database
-echo DATABASE_URL=... > .env
+cp .env.example .env # Modify this file to match your Postgres installation
+
 diesel setup
 diesel migration run
 
