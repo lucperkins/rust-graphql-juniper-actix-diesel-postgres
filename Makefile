@@ -3,6 +3,9 @@ CARGO = cargo
 build:
 	$(CARGO) build
 
+check:
+	$(CARGO) check
+
 fmt:
 	$(CARGO) fmt
 

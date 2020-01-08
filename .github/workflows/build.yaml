@@ -4,10 +4,13 @@ name: CI
 
 jobs:
   build:
-    name: Build
+    name: Check and build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - uses: actions-rs/cargo@v1
+      with:
+        command: check
     - uses: actions-rs/cargo@v1
       with:
         command: build
