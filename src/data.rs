@@ -4,6 +4,8 @@ use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use juniper::{graphql_value, FieldError, FieldResult};
 
+const DEFAULT_TODO_DONE: bool = false;
+
 // This struct is basically a query manager. All the methods that it
 // provides are static, making it a convenient abstraction for interacting
 // with the database.
@@ -27,7 +29,7 @@ impl Todos {
 
         let new_todo = NewTodo {
             task: &new_todo.task,
-            done: &new_todo.done.unwrap_or(false), // Default value is false
+            done: &new_todo.done.unwrap_or(DEFAULT_TODO_DONE), // Default value is false
         };
 
         let res = diesel::insert_into(todos::table)
