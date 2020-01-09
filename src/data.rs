@@ -54,6 +54,18 @@ impl Todos {
         }
     }
 
+    pub fn done_todos(conn: &PgConnection) -> FieldResult<Vec<Todo>> {
+        let res = todos.filter(done.eq(true)).load::<Todo>(conn);
+
+        graphql_translate(res)
+    }
+
+    pub fn not_done_todos(conn: &PgConnection) -> FieldResult<Vec<Todo>> {
+        let res = todos.filter(done.eq(false)).load::<Todo>(conn);
+
+        graphql_translate(res)
+    }
+
     pub fn mark_todo_as_done(conn: &PgConnection, todo_id: i32) -> FieldResult<Todo> {
         mark_todo_as(conn, todo_id, true)
     }

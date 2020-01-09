@@ -23,6 +23,20 @@ impl Query {
         Todos::all_todos(conn)
     }
 
+    #[graphql(name = "doneTodos")]
+    pub fn done_todos(context: &GraphQLContext) -> FieldResult<Vec<Todo>> {
+        let conn: &PgConnection = &context.pool.get().unwrap();
+
+        Todos::done_todos(conn)
+    }
+
+    #[graphql(name = "notDoneTodos")]
+    pub fn done_todos(context: &GraphQLContext) -> FieldResult<Vec<Todo>> {
+        let conn: &PgConnection = &context.pool.get().unwrap();
+
+        Todos::not_done_todos(conn)
+    }
+
     #[graphql(name = "getTodoById")]
     pub fn get_todo_by_id(
         context: &GraphQLContext,
