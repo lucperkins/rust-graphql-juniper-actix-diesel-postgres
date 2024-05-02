@@ -33,6 +33,7 @@
           cargo-edit
           cargo-watch
           diesel-cli
+          postgresql
         ];
       };
     });
