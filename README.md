@@ -23,6 +23,9 @@ GraphQL UI | [GraphQL Playground](https://github.com/prisma-labs/graphql-playgro
 git clone https://github.com/lucperkins/rust-actix-diesel-postgres-juniper
 cd rust-actix-diesel-postgres-juniper
 
+# If you would like to run the postgres server in docker
+docker compose up
+
 # Set up the database
 cp .env.example .env # Modify this file to match your Postgres installation
 

@@ -1,0 +1,16 @@
+services:
+ 
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: todos
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+ 
+volumes:
+  pgdata:
