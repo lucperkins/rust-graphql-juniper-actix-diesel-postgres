@@ -2,9 +2,9 @@
   description = "A Nix-flake-based Rust development environment";
 
   inputs = {
-    flake-utils.url = "https://flakehub.com/f/numtide/flake-utils/0.1.87.tar.gz";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2305.492294.tar.gz";
-    rust-overlay.url = "https://flakehub.com/f/oxalica/rust-overlay/0.1.1209.tar.gz";
+    flake-utils.url = "https://flakehub.com/f/numtide/flake-utils/0.1.*.tar.gz";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2405.*.tar.gz";
+    rust-overlay.url = "https://flakehub.com/f/oxalica/rust-overlay/0.1.*.tar.gz";
   };
 
   outputs =
@@ -31,7 +31,7 @@
           rustToolchain
           cargo-deny
           cargo-edit
-          cargo-watch
+          bacon
           diesel-cli
           postgresql
         ];
